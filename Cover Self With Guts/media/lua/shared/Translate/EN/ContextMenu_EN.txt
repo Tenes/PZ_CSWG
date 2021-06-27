@@ -1,4 +1,6 @@
 ContextMenu_EN = {
 	ContextMenu_CswgCutOpen = "Cut the zombie open",
 	ContextMenu_CswgCoverSelf = "Cover yourself with its guts",
+	ContextMenu_CswgMustHaveItems = "Must have a slashing item on you. <LINE>",
+	ContextMenu_CswgCoverSelfRequirement = "Must not be Hemophobic. <LINE> Will cause infection if you have any wound. <LINE>"
 }
