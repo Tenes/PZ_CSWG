@@ -1,0 +1,4 @@
+ContextMenu_EN = {
+	ContextMenu_CswgCutOpen = "Cut the zombie open",
+	ContextMenu_CswgCoverSelf = "Cover yourself with its guts",
+}
