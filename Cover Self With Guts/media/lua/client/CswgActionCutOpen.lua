@@ -2,9 +2,12 @@ require "TimedActions/ISBaseTimedAction"
 
 CswgActionCutOpen = ISBaseTimedAction:derive("CswgActionCutOpen");
 
+CswgCutOpenAction.soundDelay = 3
+CswgCutOpenAction.soundTime = 0
+
 function CswgActionCutOpen:isValid()
 	return true;
-end--function
+end
 
 function ISPaintAction:waitToStart()
 	self.character:faceThisObject(self.corpse or self.bottom);
@@ -13,26 +16,28 @@ end
 
 function CswgActionCutOpen:update()
 	self.character:faceThisObject(self.corpse or self.bottom);
-end--function
+	self.actionAudio = Cswg_HandleAudioLoop(self.soundEmitter, self.actionSound, self.actionAudio);
+end
 
 function CswgActionCutOpen:start()
+	self.actionAudio = Cswg_HandleAudioStart(self.soundEmitter, self.actionSound);
 	self:setActionAnim("Loot");
 	self.character:SetVariable("LootPosition", "Low");
-	self.character:playSound("SliceMeat");
-end--function
+end
 
 function CswgActionCutOpen:stop()
 	ISBaseTimedAction.stop(self);
-end--function
+end
 
-function CswgActionCutOpen:perform()	
+function CswgActionCutOpen:perform()
+	Cswg_HandleAudioPerform(self.soundEmitter, self.actionAudio);
 	if self.character:HasTrait("Hemophobic") then
 		self.character:getStats():setPanic(self.character:getStats():getPanic()+10);
-	end--if
-	addBloodSplat(self.square, ZombRand(30, 60));
+	end
+	addBloodSplat(self.corpse:getSquare(), ZombRand(200, 300));
 	self.corpse:getModData().CutOpen = true;
 	ISBaseTimedAction.perform(self);
-end--function
+end
 
 function CswgActionCutOpen:new(character, corpse, square)
 	local o = {};
@@ -44,5 +49,8 @@ function CswgActionCutOpen:new(character, corpse, square)
 	o.maxTime = 500;
 	o.stopOnWalk = true;
 	o.stopOnRun = true;
+	o.actionSound = "SliceMeat";
+	o.actionAudio = 0;
+	o.soundEmitter = character:getEmitter();
 	return o;
-end--function
+end
